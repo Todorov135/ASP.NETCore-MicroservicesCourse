@@ -1,6 +1,7 @@
 ﻿namespace Mango.Web.Service
 {
     using Mango.Web.Models;
+    using Mango.Web.Models.CouponDtos;
     using Mango.Web.Service.IService;
     using Mango.Web.Utility;
     using System.Threading.Tasks;
