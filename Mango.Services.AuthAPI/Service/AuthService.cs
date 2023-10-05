@@ -55,7 +55,9 @@
                 return new LoginResponseDto() { User = null, Token = "" };
             }
 
-            var token = _jwtTokenGenerator.GenerateToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var token = _jwtTokenGenerator.GenerateToken(user, roles);
 
             UserDto userDto = new()
             {
@@ -90,7 +92,7 @@
                 var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
 
                 if (result.Succeeded)
-                {
+                {                    
                     var userToReturn = _db.ApplicationUsers.First(u => u.UserName == registrationRequestDto.Email);
 
                     UserDto userDto = new()

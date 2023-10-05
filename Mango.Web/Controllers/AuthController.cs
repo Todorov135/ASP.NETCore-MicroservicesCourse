@@ -48,7 +48,7 @@
             }
             else
             {
-                ModelState.AddModelError("CustomError", responceDto.Message);
+                TempData["error"] = responceDto.Message;
 
                 return View(obj);
             }
@@ -75,7 +75,7 @@
             ResponceDto result = await _authService.RegisterAsync(obj);
             ResponceDto assignRole;
 
-            if (result != null || result.IsSuccess)
+            if (result != null && result.IsSuccess)
             {
                 if (string.IsNullOrEmpty(obj.Role))
                 {
@@ -89,7 +89,11 @@
                     TempData["success"] = "Registration Successful";
 
                     return RedirectToAction(nameof(Login));
-                }
+                }               
+            }
+            else
+            {
+                TempData["error"] = result.Message;
             }
 
             var roleList = new List<SelectListItem>()
@@ -129,7 +133,7 @@
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name).Value));
 
             identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Email).Value));
-
+            identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
 
             var principal = new ClaimsPrincipal(identity);
 
