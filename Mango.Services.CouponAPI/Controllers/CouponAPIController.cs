@@ -4,25 +4,28 @@
     using Mango.Services.CouponAPI.Data;
     using Mango.Services.CouponAPI.Models;
     using Mango.Services.CouponAPI.Models.Dto;
+    using Mango.Services.CouponAPI.Utility;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/coupon")]
     [ApiController]
+    [Authorize]
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContex _db;
-        private ResponceDto _responce;
+        private ResponseDto _responce;
         private IMapper _mapper;
 
         public CouponAPIController(AppDbContex db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
-            _responce = new ResponceDto();
+            _responce = new ResponseDto();
         }
 
         [HttpGet]
-        public ResponceDto Get()
+        public ResponseDto Get()
         {
             try
             {
@@ -41,7 +44,7 @@
 
         [HttpGet]
         [Route("{id:int}")]
-        public ResponceDto Get(int id)
+        public ResponseDto Get(int id)
         {
             try
             {
@@ -58,7 +61,7 @@
 
         [HttpGet]
         [Route("GetByCode/{code}")]
-        public ResponceDto GetByCode(string code)
+        public ResponseDto GetByCode(string code)
         {
             try
             {
@@ -74,7 +77,8 @@
         }
 
         [HttpPost]
-        public ResponceDto Post([FromBody] CouponDto couponDto)
+        [Authorize(Roles = SD.RoleAdmin)]
+        public ResponseDto Post([FromBody] CouponDto couponDto)
         {
             try
             {
@@ -93,7 +97,8 @@
         }
 
         [HttpPut]
-        public ResponceDto Put([FromBody] CouponDto couponDto)
+        [Authorize(Roles = SD.RoleAdmin)]
+        public ResponseDto Put([FromBody] CouponDto couponDto)
         {
             try
             {
@@ -113,7 +118,8 @@
 
         [HttpDelete]
         [Route("{id:int}")]
-        public ResponceDto Delete(int id)
+        [Authorize(Roles = SD.RoleAdmin)]
+        public ResponseDto Delete(int id)
         {
             try
             {
