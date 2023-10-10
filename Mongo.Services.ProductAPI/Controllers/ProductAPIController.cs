@@ -11,7 +11,6 @@
 
     [Route("api/product")]
     [ApiController]
-    [Authorize]
     public class ProductAPIController : ControllerBase
     {
         private readonly AppDbContex _db;

@@ -91,5 +91,40 @@
                 return RedirectToAction(nameof(ProductIndex));
             }
         }
-    }
+
+        public async Task<IActionResult> UpdateProduct(int productId)
+        {
+            var response = await _productService.GetProductByIdAsync(productId);
+
+            if (response != null && response.IsSuccess)
+            {
+                ProductDto product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+
+                return View(product);
+            }
+            else
+            {
+                return RedirectToAction(nameof(ProductIndex));
+            }
+        }
+
+
+		[HttpPost]
+		public async Task<IActionResult> UpdateProduct(ProductDto model)
+		{
+			var response = await _productService.UpdateProductAsync(model);
+
+			if (response != null && response.IsSuccess)
+			{
+				TempData["success"] = "Successfuly update product";
+
+				return RedirectToAction(nameof(ProductIndex));
+			}
+			else
+			{
+				TempData["error"] = response.Message;
+				return RedirectToAction(nameof(ProductIndex));
+			}
+		}
+	}
 }

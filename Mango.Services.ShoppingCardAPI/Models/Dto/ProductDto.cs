@@ -1,4 +1,4 @@
-﻿namespace Mango.Web.Models.ProductDtos
+﻿namespace Mango.Services.ShoppingCardAPI.Models.Dto
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -12,8 +12,5 @@
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string ImgUrl { get; set; }
-
-        [Range(1, 100)]
-        public int Count { get; set; } = 1;
     }
 }

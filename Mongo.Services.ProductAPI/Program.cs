@@ -1,7 +1,5 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using Mongo.Services.ProductAPI;
 using Mongo.Services.ProductAPI.Data;
 using Mongo.Services.ProductAPI.Extensions;
